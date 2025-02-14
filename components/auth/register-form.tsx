@@ -37,7 +37,7 @@ export const RegisterForm = () => {
       register(values).then((data) => {
         setError(data.error);
         setSuccess(data.success);
-      })
+      });
     });
   }
 
@@ -79,7 +79,7 @@ export const RegisterForm = () => {
                       {...field}
                       disabled={isPending}
                       placeholder="John"
-                      type="password"
+                      type="text"
                     />
                   </FormControl>
                   <FormMessage />
