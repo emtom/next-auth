@@ -3,6 +3,7 @@
 import * as z from "zod";
 
 import { LoginSchema } from "@/schemas";
+import { signIn } from "@/auth";
 
 export async function login(values: z.infer<typeof LoginSchema>) {
   console.log('VALUES', values);
@@ -15,7 +16,20 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     }
   }
 
-  return {
-    success: "success"
-  }
+  const { email, password } = validatedFields.data;
+  
+  try {
+    const result = await signIn("credentials", {
+      email,
+      password,
+    });
+
+    return {
+      success: "success"
+    } 
+  } catch (error) {
+    return {
+      error: "Invalid credentials"
+    }
+  } 
 }
