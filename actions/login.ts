@@ -1,13 +1,12 @@
 "use server"
 
+import { AuthError } from "next-auth";
 import * as z from "zod";
 
 import { LoginSchema } from "@/schemas";
 import { signIn } from "@/auth";
 
 export async function login(values: z.infer<typeof LoginSchema>) {
-  console.log('VALUES', values);
-
   const validatedFields = LoginSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -22,14 +21,22 @@ export async function login(values: z.infer<typeof LoginSchema>) {
     const result = await signIn("credentials", {
       email,
       password,
+      redirect: false
     });
 
     return {
-      success: "success"
+      success: "Sign in successful"
     } 
   } catch (error) {
-    return {
-      error: "Invalid credentials"
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Sign in failed" }
+        default:
+          return { error: "Something went wronng" }
+      }
     }
+    
+    throw error;
   } 
 }

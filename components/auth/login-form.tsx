@@ -27,17 +27,14 @@ export const LoginForm = () => {
   });
 
   const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-    console.log('onSubmit', values);
-
     setError(undefined);
     setSuccess(undefined);
 
     startTransition(() => {
       login(values).then((data) => {
-        console.log('THEN, data', data);
         setError(data.error);
         setSuccess(data.success);
-      })
+      });
     });
   }
 
