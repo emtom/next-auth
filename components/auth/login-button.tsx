@@ -15,7 +15,9 @@ export const LoginButton = ({ children, mode = "redirect", asChild = false }: Lo
   const [isPending, startTransition] = useTransition();
 
   const handleLogin = () => {
-    router.push('/auth/login');
+    if (mode === 'redirect') {
+      router.push('/auth/login');
+    }
   }
 
   return (

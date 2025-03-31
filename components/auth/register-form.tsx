@@ -115,7 +115,7 @@ export const RegisterForm = () => {
             type="submit"
             disabled={isPending}
           >
-            Login
+            Sign up
           </Button>
         </form>
       </Form>
